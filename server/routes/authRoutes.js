@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { test, registerUser, loginUser, logoutUser, getProfile, getUsers} = require('../controllers/authController');
+const { test, registerUser, loginUser, logoutUser, getProfile, createPost, getAllPosts, getPostById} = require('../controllers/authController');
 
 // Apply CORS middleware to all routes
 router.use(
@@ -16,6 +16,8 @@ router.post('/register', registerUser);
 router.post('/login', loginUser)
 router.post('/logout', logoutUser)
 router.get('/profile', getProfile)
-router.get('/users', getUsers)
+router.post('/createpost', createPost)
+router.get('/getallpost', getAllPosts)
+router.get('/getpostbyid', getPostById)
 
 module.exports = router;

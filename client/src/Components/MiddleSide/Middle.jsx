@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import InputPost from '../Post/InputPost'
-import Homepage from "../Home/Homepage"
+import Homepage from "../Home2/Homepage"
 import "../MiddleSide/Middle.css"
 
 
-const Middle = ({handleSubmit,
-                body,
-                setBody,
-                setImportFile,
+const Middle = ({
                 posts,
                 setPosts,
                 search,
                 images,
-                setImages,
-                handleImageChange,
-                emptImg,
-                setEmptImg,
                 setFriendsProfile
               }) => {
     
@@ -34,17 +27,7 @@ const Middle = ({handleSubmit,
   
   return (
     <div className='M-features'>
-        <InputPost
-        handleSubmit={handleSubmit}
-        body ={body}
-        setBody ={setBody}
-        setImportFile ={setImportFile}
-        images={images}
-        handleImageChange={handleImageChange}
-        emptImg ={emptImg}
-        setEmptImg={setEmptImg}
-        setImages={setImages}
-        />
+        <InputPost />
 
         <Homepage 
         posts ={searchResults}

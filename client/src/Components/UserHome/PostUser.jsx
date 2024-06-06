@@ -25,16 +25,15 @@ import img1 from "../../assets/Following/img-2.jpg"
 import img2 from  "../../assets/Following/img-3.jpg"
 import img3 from  "../../assets/Following/img-4.jpg"
 
-import Profile from "../../assets/profile.jpg"
 
 import { useState } from 'react';
 import Comments from '../Comments/Comments';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 
 
 
-const Post = ({post,posts,setPosts,setFriendsProfile,images}) => {
+
+const PostUser = ({posts,post,setPosts,profileImg,modelDetails,images}) => {
 
   const [comments,setComments] =useState([
     {
@@ -52,6 +51,14 @@ const Post = ({post,posts,setPosts,setFriendsProfile,images}) => {
         username:"Brandon",
         time:"1 Hour Ago",
         comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+        id:3,
+        profilePic:img3,
+        likes:50,
+        username:"Lilly",
+        time:"30 Mins Ago",
+        comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse asperiores debitis saepe itaque, eligendi quasi"
     }
 ])
 
@@ -70,10 +77,11 @@ const Post = ({post,posts,setPosts,setFriendsProfile,images}) => {
     setFilledLike(unFilledLike ?   <FavoriteBorderOutlinedIcon /> : <FavoriteRoundedIcon />)
     setUnFilledLike(!unFilledLike)
   }
- 
+  
 
   const [showDelete,setShowDelete] = useState(false)
   const [showComment,setShowComment] = useState(false)
+
 
 const handleDelete=(id)=>{
   const deleteFilter =posts.filter(val=> val.id !== id)
@@ -87,8 +95,8 @@ const handleDelete=(id)=>{
      e.preventDefault()
 
     const id=comments.length ? comments[comments.length -1].id +1 : 1
-    const profilePic =Profile
-    const username="Vijay"
+    const profilePic =profileImg
+    const username=modelDetails.ModelName
     const comment =commentInput
     const time= moment.utc(new Date(), 'yyyy/MM/dd kk:mm:ss').local().startOf('seconds').fromNow()
 
@@ -105,43 +113,42 @@ const handleDelete=(id)=>{
     setCommentInput("")
   }
 
-   const handleFriendsId=(id)=>{
-      const friendsIdFilter = posts.filter(val => val.id === id)
-      setFriendsProfile(friendsIdFilter)
-   }
+  const [socialIcons,setSocialIcons] = useState(false)
 
 
 
   return (
     <div className='post'>
       <div className='post-header'>
-        <Link to="/FriendsId" style={{textDecoration:"none"}}>
-        <div className='post-user' onClick={()=>handleFriendsId(post.id)} style={{cursor:"pointer"}}>
-            <img src={post.profilepicture} className='p-img' alt="" />
-            <h2>{post.username}</h2>
+        <div className='post-user' style={{cursor:"pointer"}}>
+            <img src={profileImg} className='p-img' alt="" />
+            <h2>{modelDetails.ModelName}</h2>
             <p className='datePara'>{post.datetime}</p>
         </div>
-        </Link>
          
          <div className='delete'>
-         {showDelete && (<div className="options">
-            <button onClick={()=>handleDelete(post.id)}><AiOutlineDelete />Delete</button>
+         {showDelete && (
+         <div className="options">
+         <button><PiSmileySad />Not Interested in this post</button>
+         <button><IoVolumeMuteOutline />Mute this user</button>
+         <button><MdBlockFlipped />Block this user</button>
+         <button onClick={()=>handleDelete(post.id)}><AiOutlineDelete />Delete</button>
+         <button><MdReportGmailerrorred />Report post</button>
          </div>
-        
          )}
           <MoreVertRoundedIcon className='post-vertical-icon' onClick={()=>setShowDelete(!showDelete)}/>
          </div>
        </div>
-
+       {
+    
+    }
         <p className='body'>{
         (post.body).length <=300 ?
         post.body : `${(post.body).slice(0,300)}...`
         }</p>
 
-       {post.img && (<img src={post.img} alt="" className="post-img" />)}
-  
-
-
+        {post.img && (<img src={post.img} alt="" className="post-img" />)}
+      
       <div className="post-foot">
        <div className="post-footer">
         <div className="like-icons">
@@ -157,8 +164,53 @@ const handleDelete=(id)=>{
             className='msg'  
           />
 
+          <ShareOutlinedIcon 
+            onClick={()=>setSocialIcons(!socialIcons)}
+            className='share'  
+          />
+
+        {socialIcons && (
+          
+          <div className="social-buttons">        
+    
+            <a href="http://www.facebook.com" target="blank" className="social-margin"> 
+              <div className="social-icon facebook">
+                <LiaFacebookF className='social-links'/>
+              </div>
+            </a>
+            
+            <a href="https://pinterest.com/" target="blank"  className="social-margin">
+              <div className="social-icon instagram">
+                <FiInstagram className='social-links'/>
+              </div>
+            </a>
+            
+            <a href="http://linkedin.com/" className="social-margin" target="blank">
+              <div className="social-icon linkedin">
+                <BiLogoLinkedin className='social-links'/>
+              </div> 
+            </a>
          
-        </div>
+            <a href="https://github.com/"  target="blank"  className="social-margin">
+              <div className="social-icon github">
+                <FiGithub className='social-links'/>
+              </div>
+            </a>
+            
+            <a href="http://youtube.com/" target="blank"  className="social-margin">
+              <div className="social-icon youtube">
+              <AiFillYoutube className='social-links'/>
+              </div> 
+            </a>
+      
+            <a href="http://twitter.com/" target="blank" className="social-margin">
+              <div className="social-icon twitter">
+              <RxTwitterLogo />
+              </div> 
+            </a>
+       </div>
+      )}
+    </div>
         
 
         <div className="like-comment-details">
@@ -189,6 +241,7 @@ const handleDelete=(id)=>{
         <div className="sticky">
           {comments.map((cmt)=>(
             <Comments 
+            modelDetails={modelDetails}
             className="classComment"
             cmt={cmt}
             key={cmt.id}
@@ -204,4 +257,4 @@ const handleDelete=(id)=>{
   )
 }
 
-export default Post
+export default PostUser

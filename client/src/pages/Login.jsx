@@ -27,12 +27,13 @@ export default function Login() {
             toast.error(data.error)
           } else {
             setData({});
-            navigate('/home')
+            window.location.href = '/home';
           }
         } catch (error) {
-          
+          console.error('Login failed:', error);
+          toast.error('An error occurred during login. Please try again.');
         }
-    }
+      };
 
 return(
 
