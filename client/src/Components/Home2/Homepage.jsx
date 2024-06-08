@@ -10,37 +10,69 @@ import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfie
 import {AiOutlineDelete} from "react-icons/ai"
 import img1 from "../../assets/Following/img-2.jpg"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import moment from 'moment';
 
 
 function Homepage() {
 
     const [filledLike,setFilledLike] =useState(<FavoriteBorderOutlinedIcon />)
-    const [unFilledLike,setUnFilledLike] =useState(false)
-  
+    const [unFilledLike,setUnFilledLike] =useState(false)    
+    const [showDelete,setShowDelete] = useState(false)
+    const [showComment,setShowComment] = useState(false)
+    
+    const [posts, setPosts] = useState([]);
+      
+
+
+    useEffect(() => {
+      axios.get('/getpost')
+       .then(response => {
+        const posts = response.data.sort((a, b) => b.createdAt - a.createdAt).reverse();
+        setPosts(posts);
+        })
+       .catch(error => {
+          console.error(error);
+        });
+    }, []);
+
+    posts.forEach(post => {
+      console.log('Post ID:', post._id);
+      console.log('User ID:', post.userId);
+      console.log('User First Name:', post.userId?.firstName);
+      console.log('User Last Name:', post.userId?.lastName);
+      console.log('Content:', post.content);
+      console.log('Media:', post.media);
+    });
+
+    
+
     const handlelikes=()=>{
       setFilledLike(unFilledLike ?   <FavoriteBorderOutlinedIcon /> : <FavoriteRoundedIcon />)
       setUnFilledLike(!unFilledLike)
+
+    
     }
    
-  const [showDelete,setShowDelete] = useState(false)
-  const [showComment,setShowComment] = useState(false)
 
 
 
 
   return (
-    <div className='post'>
-      <div className='post-header'>
-        <Link to="/FriendsId" style={{textDecoration:"none"}}>
-        <div className='post-user' style={{cursor:"pointer"}}>
-            <img src={img1} className='p-img' alt="" />
-            <h2>username</h2>
-            <p className='datePara'>13days ago</p>
-        </div>
-        </Link>
+    <div className='posts'>
+      {posts.map(post => (
+       <div key={post._id} className='post'>
+        <div className='post'>
+       <div className='post-header'>
+         <Link to="/home" style={{ textDecoration: "none" }}>
+           <div className='post-user' style={{ cursor: "pointer" }}>
+             <img src={img1} className='p-img' alt="" />
+             <h2>{post.userId?.firstName} {post.userId?.lastName}</h2>
+             <p className='datePara'>{moment(post.createdAt).fromNow()}</p>
+           </div>
+         </Link>
          
          <div className='delete'>
          {showDelete && (<div className="options">
@@ -52,13 +84,19 @@ function Homepage() {
          </div>
        </div>
 
-        <p className='body'>
-        postbodypodybodybody</p>
-
-       <img src={img1} alt="" className="post-img" />
-  
-
-
+       <p className='body'>{post.content}</p>
+       {post.media && (
+      <div>
+        {post.media.includes('image')? (
+          <img src={post.media} alt="" className="post-img" />
+        ) : (
+          <video controls>
+            <source src={post.media} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+      </div>
+    )}
       <div className="post-foot">
        <div className="post-footer">
         <div className="like-icons">
@@ -104,13 +142,16 @@ function Homepage() {
         <div className="sticky">
           
           </div>
+          
         </div>
         )}
 
       </div>     
     </div>
   </div>
-  )
+  </div>
+   ))}
+   </div>
+ );
 }
-
-export default Homepage
+export default Homepage;

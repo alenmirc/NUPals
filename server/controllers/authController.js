@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const Posts = require('../models/posting');
 const { hashPassword, comparePassword} = require('../helpers/auth')
 const jwt = require('jsonwebtoken');
 
@@ -44,6 +43,7 @@ const registerUser = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
+            roles: ['user']
         });
         return res.json(user)
     } catch (error) {
@@ -104,59 +104,25 @@ const getProfile = (req, res) => {
 
 
 
-  //CREATE NEW USERPOSTING DITO
-const createPost = async (req, res) => {
+//update profilepic
+const updateProfilepic = async (req, res) => {
     try {
-        const { userId, content } = req.body;
-
-        // Check if the user exists
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.json({ error: 'User not found' });
-        }
-
-        // Create a new post
-        const newPost = new Posts({ userId, content });
-        await newPost.save();
-
-        res.json(newPost);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
-//getALL POST
-// Get all posts
-const getAllPosts = async (req, res) => {
-    try {
-        const posts = await Post.find()
-            .populate('userId', 'firstName lastName picturePath') // Populating with specific fields
-            .exec();
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-//GETPOSTBYID
-const getPostById = async (req, res) => {
-    const { postId } = req.params;
-    try {
-        const post = await Posts.findById(postId)
-            .populate('userId')
-            .populate('likes')
-            .populate('comments')
-            .exec();
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
-        res.status(200).json(post);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+      const userId = req.user.id; // Get the user's ID from the request
+      const base64String = req.body.profilePicture;
   
+      // Update the user's profile picture in the database
+      const user = await User.findByIdAndUpdate(userId, { profilePicture: base64String }, { new: true });
+  
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+  
+      res.send({ message: 'Profile picture updated successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Error updating profile picture' });
+    }
+  };
 
 module.exports = {
     test,
@@ -164,7 +130,5 @@ module.exports = {
     loginUser,
     logoutUser,
     getProfile,
-    createPost,
-    getAllPosts,
-    getPostById
+    updateProfilepic
 };

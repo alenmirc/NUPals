@@ -8,7 +8,19 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
-    password: String
+    password: String,
+    department:  {
+        type: String, // Update media type to String
+        required: false,
+        default: null
+    },
+    skills: [{ type: String }],
+    roles: [{ type: String, }],
+    profilePicture:  {
+        type: String, // Update media type to String
+        required: false,
+        default: null
+    }
 }, { timestamps: true });
 
 const UserModel = mongoose.model('User', userSchema);

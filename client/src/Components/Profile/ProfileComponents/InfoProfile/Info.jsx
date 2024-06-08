@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import "../InfoProfile/Info.css"
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import WorkOutlineRoundedIcon from '@mui/icons-material/WorkOutlineRounded';
+import InterestsOutlinedIcon from '@mui/icons-material/InterestsOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import Info3 from "../../../../assets/Info-Dp/img-3.jpg"
-
+import profile from "../../../../assets/profile.png"
 import {LiaEdit} from "react-icons/lia"
 
 import {IoCameraOutline} from "react-icons/io5"
@@ -12,6 +14,9 @@ import {BiLogOut} from "react-icons/bi"
 import { useRef } from 'react';
 import ModelProfile from '../ModelProfile/ModelProfile';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../../../context/userContext';
+import moment from 'moment';
+
 
 const Info = ({userPostData,
               following,
@@ -24,30 +29,9 @@ const Info = ({userPostData,
               userName,
               setUserName}) => {
 
-
+  const { user, logout } = useContext(UserContext);
   const [coverImg,setCoverImg] =useState(Info3)
 
-  const importProfile=useRef()
-  const importCover =useRef()
-
-  
-  const handleFile1=(e)=>{
-    if(e.target.files && e.target.files[0]){
-      let img =e.target.files[0]
-      const imgObj= {image:URL.createObjectURL(img)}
-      const profileImg= imgObj.image
-      setProfileImg(profileImg)
-    }
-  }
-
-  const handleFile2 =(e)=>{
-    if(e.target.files && e.target.files[0]){
-      let img =e.target.files[0]
-      const imgObj ={image:URL.createObjectURL(img)}
-      const coverImg =imgObj.image
-      setCoverImg(coverImg)
-    }
-  }
 
   const [openEdit,setOpenEdit] =useState(false)
 
@@ -80,35 +64,22 @@ const Info = ({userPostData,
     <div className='info'>
         <div className="info-cover">
             <img src={coverImg} alt="" />
-            <img src={profileImg} alt="" />
-            <div className='coverDiv'><IoCameraOutline className='coverSvg' onClick={()=>importCover.current.click()}/></div>
-            <div className='profileDiv'><IoCameraOutline className='profileSvg' onClick={()=>importProfile.current.click()}/></div>
+            <img src={profile} alt="" />
+          
         </div>
       
 
-        
-        <input type="file" 
-        ref={importProfile}
-        onChange={handleFile1}
-        style={{display:"none"}}
-        />
-        
-        <input type="file" 
-        ref={importCover}
-        onChange={handleFile2}
-        style={{display:"none"}}
-        />
         
 
 
 
         <div className="info-follow">
-            <h1>{modelDetails.ModelName}</h1>
-            <p>{modelDetails.ModelUserName}</p>
+            <h1>{user?.firstName} {user?.lastName}</h1>
+            <p>{user?.email}</p>
 
-            <Link to="/" className='logout'>
-              <BiLogOut />Logout
-            </Link>
+            <button className='logout' onClick={logout} style={{ width: '100px', padding: '5px' }}>
+  <BiLogOut />Logout
+</button>
 
             <button onClick={()=>setOpenEdit(true)}><LiaEdit />Edit Profile</button>
             <ModelProfile 
@@ -129,18 +100,18 @@ const Info = ({userPostData,
           <div className="info-details">
             <div className="info-col-1">
               <div className="info-details-list">
-                <LocationOnOutlinedIcon />
+                <InterestsOutlinedIcon />
                 <span>{modelDetails.ModelCountryName}</span>
               </div>
 
               <div className="info-details-list">
-                <WorkOutlineRoundedIcon />
+                <SchoolOutlinedIcon />
                 <span>{modelDetails.ModelJobName}</span>
               </div>
 
               <div className="info-details-list">
                 <CalendarMonthRoundedIcon />
-                <span>Joined in 2023-08-12</span>
+                <span>Joined in {moment(user.createdAt).format('YYYY-MM-DD')}</span>
               </div>
             </div>
 

@@ -43,7 +43,7 @@ return(
             <img src={Logo} alt="Logo" className="logo" />
         </div>
         <form onSubmit={loginUser}>
-            <h1>Login</h1>
+            <h1>Welcome!</h1>
             <p>Please sign in to continue.</p>
             <div className="inputBox">
                 <FiMail className='mail' />
