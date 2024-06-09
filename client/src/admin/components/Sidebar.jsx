@@ -1,51 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './style.css';
 import { Dashboard, People, Description, Settings, Logout } from '@mui/icons-material'; // Import Material-UI icons
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../../context/userContext';
 
 const Sidebar = () => {
-
+  const { user, logout } = useContext(UserContext);
   return (
+    <>
     <section id="sidebar"> 
-      <a href="#" className="brand">
+      <a className="brand">
         <i className='bx bxs-smile'></i>
         <span className="text">NU Pals</span>
       </a>
       <ul className="side-menu top">
         <li className="active">
-          <a href="#">
+        <Link to="/admin/dashboard">
             <Dashboard />
             <span className="text">Dashboard</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+        <Link to="/admin/users">
             <People />
             <span className="text">Users</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+        <Link to="/admin/post">
             <Description />
             <span className="text">Post</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <Description />
-            <span className="text">Test</span>
-          </a>
-        </li>
-         <li>
-          <a href="#">
-            <Description />
-            <span className="text">Test</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <Description />
-            <span className="text">Test</span>
-          </a>
+          </Link>
         </li>
         <li>
           <a href="#">
@@ -62,13 +47,15 @@ const Sidebar = () => {
           </a>
         </li>
         <li>
-          <a href="#" className="logout">
-            <Logout />
-            <span className="text">Logout</span>
-          </a>
+        <button className="logout" onClick={logout}>
+      <Logout />
+      <span className="text">Logout</span>
+    </button>
+          
         </li>
       </ul>
     </section>
+    </>
   );
 };
 

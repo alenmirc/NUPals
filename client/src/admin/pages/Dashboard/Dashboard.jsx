@@ -1,15 +1,22 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar'; // Assuming Sidebar.jsx is in the same directory
-import Navbar from '../components/Navbar'; // Assuming Navbar.jsx is in the same directory
-import './Dashboard.css';
+import Sidebar from '../../components/Sidebar'; // Adjust the path according to your project structure
+import Navbar from '../../components/Navbar'; // Adjust the path according to your project structure
+import { useEffect } from 'react';
 
 const Dashboard = () => {
+  useEffect(() => {
+    document.body.classList.add('dashboard-body');
+    return () => {
+      document.body.classList.remove('dashboard-body');
+    };
+  }, []);
+
   return (
     <div>
       <Sidebar />
       <Navbar />
       <section id="content">
-      <main>
+        <main>
       <div className="head-title">
         <div className="left">
           <h1>Dashboard</h1>
@@ -96,8 +103,8 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
-    </main>
-    </section>
+      </main>
+      </section>
     </div>
   );
 };
