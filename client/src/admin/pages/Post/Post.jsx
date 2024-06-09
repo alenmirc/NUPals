@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import '../Dashboard/Dashboard.css';
 
-import { Table, Form, Button, InputGroup } from 'react-bootstrap';
+import { Table, Form, Button, InputGroup, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Post = () => {
@@ -17,7 +17,8 @@ const Post = () => {
     };
   }, []);
 
-  
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
@@ -62,6 +63,17 @@ const Post = () => {
 
   const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/admindeletepost/${postIdToDelete}`);
+      setPosts(posts.filter(post => post._id !== postIdToDelete));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
+
   return (
     <div>
       <Sidebar />
@@ -96,7 +108,9 @@ const Post = () => {
             </thead>
             <tbody>
               {paginatedPosts.map(post => (
+                
                 <tr key={post._id}>
+        
                   <td>{post.userId.firstName}</td>
                   <td>{post.userId.lastName}</td>
                   <td>{post.content}</td>
@@ -109,7 +123,10 @@ const Post = () => {
                   <td>{new Date(post.updatedAt).toLocaleString()}</td>
                   <td>
                     <Button variant="primary" size="sm">Edit</Button>
-                    <Button variant="danger" size="sm" className="ml-2">Delete</Button>
+                    <Button variant="danger" size="sm" className="ml-2" onClick={() => {
+                      setShowDeleteModal(true);
+                      setPostIdToDelete(post._id);
+                    }}>Delete</Button>
                   </td>
                 </tr>
               ))}
@@ -128,6 +145,20 @@ const Post = () => {
           </div>
         </main>
       </section>
+
+       {/* Delete confirmation modal */}
+       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this post?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+          <Button variant="danger" onClick={handleDelete}>Delete</Button>
+        </Modal.Footer>
+      </Modal>
+
+
     </div>
   );
 };

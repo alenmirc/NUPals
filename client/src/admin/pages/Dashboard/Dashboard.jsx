@@ -21,41 +21,32 @@ const Dashboard = () => {
         <div className="left">
           <h1>Dashboard</h1>
           <ul className="breadcrumb">
-            <li>
-              <a href="#">Dashboard</a>
-            </li>
-            <li><i className='bx bx-chevron-right' ></i></li>
-            <li>
-              <a className="active" href="#">Home</a>
-            </li>
+           
           </ul>
         </div>
-        <a href="#" className="btn-download">
-          <i className='bx bxs-cloud-download' ></i>
-          <span className="text">Download PDF</span>
-        </a>
+       
       </div>
 
       <ul className="box-info">
         <li>
           <i className='bx bxs-calendar-check' ></i>
           <span className="text">
-            <h3>1020</h3>
-            <p>New Order</p>
+            <h3>10</h3>
+            <p>Post</p>
           </span>
         </li>
         <li>
           <i className='bx bxs-group' ></i>
           <span className="text">
-            <h3>2834</h3>
-            <p>Visitors</p>
+            <h3>2</h3>
+            <p>Users</p>
           </span>
         </li>
         <li>
           <i className='bx bxs-dollar-circle' ></i>
           <span className="text">
-            <h3>$2543</h3>
-            <p>Total Sales</p>
+            <h3>0</h3>
+            <p>Feedback</p>
           </span>
         </li>
       </ul>
@@ -63,7 +54,7 @@ const Dashboard = () => {
       <div className="table-data">
         <div className="order">
           <div className="head">
-            <h3>Recent Orders</h3>
+            <h3>Recent Post</h3>
             <i className='bx bx-search' ></i>
             <i className='bx bx-filter' ></i>
           </div>
@@ -71,7 +62,7 @@ const Dashboard = () => {
             <thead>
               <tr>
                 <th>User</th>
-                <th>Date Order</th>
+                <th>Date</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -79,7 +70,7 @@ const Dashboard = () => {
               <tr>
                 <td>
                   <img src="img/people.png" alt="User" />
-                  <p>John Doe</p>
+                  <p>Alen</p>
                 </td>
                 <td>01-10-2021</td>
                 <td><span className="status completed">Completed</span></td>
@@ -96,7 +87,7 @@ const Dashboard = () => {
           </div>
           <ul className="todo-list">
             <li className="completed">
-              <p>Todo List</p>
+              <p>Admin</p>
               <i className='bx bx-dots-vertical-rounded' ></i>
             </li>
             {/* Other todo list items */}

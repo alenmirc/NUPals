@@ -46,13 +46,10 @@ const Sidebar = () => {
             <span className="text">Settings</span>
           </a>
         </li>
-        <li>
-        <button className="logout" onClick={logout}>
-      <Logout />
-      <span className="text">Logout</span>
-    </button>
+        
+  
           
-        </li>
+      
       </ul>
     </section>
     </>

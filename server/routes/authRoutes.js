@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require('cors');
 const { test, registerUser, loginUser, logoutUser, getProfile, updateProfile, getUserprofile} = require('../controllers/authController');
 const { createUserPosting, getPost, getPostbyid, deletePost } = require('../controllers/userPostingController');
+const { getUsers, getAllpost, loginAdmin, logoutAdmin, adminDeletepost } = require('../controllers/adminController');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
@@ -24,7 +25,7 @@ const upload = multer({
   }
 });
 
-// Define routes
+//usercontroller
 router.get('/', test);
 router.post('/register', registerUser); 
 router.post('/login', loginUser)
@@ -34,10 +35,17 @@ router.put('/updateprofile', upload.single('profilePicture'), updateProfile);
 router.get('/getUserprofile', getUserprofile);
 
 
-
+//posting controller
 router.post('/createuserposting', upload.single('media'), createUserPosting);
 router.get('/getpost', getPost);
 router.get('/getpostbyid', getPostbyid);
 router.delete('/deletepost/:postId', deletePost);
+
+//admin controller
+router.get('/getusers', getUsers);
+router.get('/getallpost', getAllpost);
+router.post('/loginadmin', loginAdmin);
+router.post('/logout', logoutAdmin)
+router.delete('/admindeletepost/:postId', adminDeletepost);
 
 module.exports = router;
