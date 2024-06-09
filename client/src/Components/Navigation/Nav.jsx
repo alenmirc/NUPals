@@ -8,12 +8,9 @@ import {LiaUserFriendsSolid} from "react-icons/lia"
 import {IoNotificationsOutline} from "react-icons/io5"
 import {TbMessage} from "react-icons/tb"
 
-import Profile from "../../assets/profile.jpg"
 
-function Nav ({search,setSearch,setShowMenu,profileImg}) {
+function Nav ({search,setSearch,setShowMenu,profilePicture, defprofile}) {
 
-
-  
   return (
     <nav>
         <div className="n-logo">
@@ -51,7 +48,7 @@ function Nav ({search,setSearch,setShowMenu,profileImg}) {
 
        <div className="n-profile" >
           <Link to="/profile"> 
-            <img src={profileImg ? (profileImg) : Profile} className='n-img' style={{marginBottom:"-7px"}}/>
+            <img src={profilePicture || defprofile} className='n-img' style={{marginBottom:"-7px"}}/>
           </Link>
       </div>
   

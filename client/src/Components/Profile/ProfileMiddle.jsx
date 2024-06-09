@@ -1,7 +1,7 @@
 import Info from './ProfileComponents/InfoProfile/Info'
 import UserHome from '../UserHome/UserHome'
 
-import Profile from "../../assets/profile.jpg"
+import Profile from "../../assets/profile.png";
 import img1 from "../../assets/User-post/img1.jpg"
 import img2 from "../../assets/User-post/img2.jpg"
 import img3 from "../../assets/User-post/img3.jpg"
@@ -11,7 +11,8 @@ import "../Profile/ProfileMiddle.css"
 import moment from 'moment'
 import ProfileInputPost from './ProfileComponents/ProfileInputPost'
 
-const ProfileMiddle = ({following,
+const ProfileMiddle = ({firstName, profilePicture, defprofile,
+                        following,
                         search,
                         images,
                         setImages,
@@ -58,38 +59,9 @@ const ProfileMiddle = ({following,
     }
     ]
   )
-  const [body,setBody] =useState("")
-  const [importFile,setImportFile] =useState("")
+
   
  
-
-  const handleSubmit =(e)=>{
-    e.preventDefault()
-
-  
-    const id =userPostData.length ? userPostData[userPostData.length -1].id +1 :1
-    const username="Dastin Contento"
-    const profilepicture=Profile
-    const datetime=moment.utc(new Date(), 'yyyy/MM/dd kk:mm:ss').local().startOf('seconds').fromNow()
-    const img= images ? {img:URL.createObjectURL(images)} : null
-
-   
-    const obj ={id:id,
-               profilepicture:profilepicture,
-               username:username,
-               datetime:datetime,
-               img:img && (img.img),
-               body:body,
-               like:0,
-               comment:0
-              }
-
-    const insert =[...userPostData,obj]
-    setUserPostData(insert)
-    setBody("")
-    setImages(null)
-  }
-
 
   
 
@@ -124,17 +96,7 @@ const ProfileMiddle = ({following,
         setUserName={setUserName}
         />
         
-        <ProfileInputPost
-        modelDetails={modelDetails}
-        profileImg={profileImg}
-        handleSubmit={handleSubmit}
-        body ={body}
-        setBody ={setBody}
-        importFile ={importFile}
-        setImportFile ={setImportFile}
-        images={images}
-        setImages={setImages}
-        />
+        <ProfileInputPost firstName={firstName} profilePicture={profilePicture} defprofile={defprofile} />
         
         <UserHome 
         modelDetails={modelDetails}

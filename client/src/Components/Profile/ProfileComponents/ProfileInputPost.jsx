@@ -1,82 +1,145 @@
-import React from 'react'
+
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
 import KeyboardVoiceRoundedIcon from '@mui/icons-material/KeyboardVoiceRounded';
 import {FaSmile} from "react-icons/fa"
+import { UserContext } from '../../../../context/userContext';
+import axios from 'axios';
+import {toast} from 'react-hot-toast'
+import React, { useState, useContext } from 'react';
 
-
-const ProfileInputPost = ({handleSubmit,
-                            setBody,
-                            body,
-                            images,
-                            setImages,
-                            profileImg,
-                            modelDetails
+const ProfileInputPost = ({firstName, profilePicture, defprofile,
+                            
                         }) => {
+
+                          const { user } = useContext(UserContext); // Get user info from context
+                          const userId = user?.id;
+                        
+                          const [body, setBody] = useState('');
+                          const [image, setImage] = useState(null);
+                          const [video, setVideo] = useState(null);
+                          const [base64String, setBase64String] = useState('');
+                        
+                          
+                          const handleFileChange = (e) => {
+                            const file = e.target.files[0];
+                            const fileSize = file.size;
+                            const maxSize = 10 * 1024 * 1024; // 10MB
+                          
+                            if (fileSize > maxSize) {
+                              toast.error('File size exceeds 10MB');
+                              return;
+                            }
+                          
+                            const reader = new FileReader();
+                          
+                            reader.onload = () => {
+                              const base64 = reader.result;
+                              setBase64String(base64);
+                            };
+                          
+                            if (file.type.includes('image')) {
+                              reader.readAsDataURL(file);
+                              setImage(file);
+                              setVideo(null); // Reset video if image is selected
+                            } else if (file.type.includes('video')) {
+                              reader.readAsDataURL(file);
+                              setVideo(file);
+                              setImage(null); // Reset image if video is selected
+                            }
+                          };
+                          
+                          const handleSubmit = (e) => {
+                            e.preventDefault();
+                            console.log('User:', userId);
+                            console.log('Content:', body);
+                            console.log('Base64 string before sending:', base64String);
+                            
+                            const newPost = {
+                              userId,
+                              content: body,
+                              media: base64String
+                            };
+                            
+                            
+                            const formData = new FormData();
+                            formData.append('userId', userId);
+                            formData.append('content', body);
+                            formData.append('media', base64String); // No changes needed here
+                          
+                            axios.post('/createuserposting', formData)
+                            
+                              .then(response => {
+                                console.log(response);
+                                setBody('');
+                                setImage(null);
+                                setVideo(null);
+                                setBase64String('');
+                                toast.success('Post created successfully');
+                                window.location.reload()
+                              })
+                              .catch(error => {
+                                console.error(error);
+                                // Revert the optimistically updated posts list
+                                setPosts(posts.filter(post => post !== newPost));
+                                toast.error('Error creating post');
+                              });
+                          };
+
+
   return (
-    <div className="i-form">
-        <form onSubmit={handleSubmit}>
-            <div className="i-input-box">
-                <img src={profileImg} className='i-img'/>
-                
-                <input 
-                type="text" 
-                id="i-input" 
-                placeholder={`What's in your mind ${modelDetails.ModelName}?`}
-                required
-                value={body}
-                onChange={(e)=>setBody(e.target.value)}
-                />
-            </div>
+     <div className="i-form">
+      <form onSubmit={handleSubmit}>
+        <div className="i-input-box">
+          <img src={profilePicture || defprofile} className='i-img' alt="Profile" />
+          <input
+            type="text"
+            id="i-input"
+            placeholder={`What's in your mind, ${firstName}?`} // Use user name dynamically
+            required
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+          />
+        </div>
 
-     <div className="file-upload">
-      <div className="file-icons">
-          <label htmlFor='file' className="pv-upload">
-            <PhotoLibraryIcon className="input-svg" style={{fontSize:"38px",color:"orangered"}}/>
-            <span className='photo-dis'>Photo</span>
-          </label>
-
-          <div className="pv-upload">
-            <PlayCircleFilledOutlinedIcon className="input-svg" style={{fontSize:"38px",color:"black"}}/>
-            <span className='photo-dis'>Video</span>
+        <div className="file-upload">
+          <div className="file-icons">
+            <label htmlFor="file" className="pv-upload">
+              <PhotoLibraryIcon className="input-svg" style={{ fontSize: "38px", color: "#35408e" }} />
+              <span className='photo-dis'>Photo / Video</span>
+            </label>
           </div>
-
-          <div className="pv-upload">
-            <KeyboardVoiceRoundedIcon className="input-svg" style={{fontSize:"38px",color:"green"}}/>
-            <span className='photo-dis'>Audio</span>
-          </div>
-
-          <div className="pv-upload">
-            <FaSmile className="input-svg" style={{fontSize:"30px",color:"red"}}/>
-            <span className='photo-dis'>Location</span>
-          </div>
-      </div>
-      
           <button type='submit'>Share</button>
-            
-      </div>
+        </div>
 
-        <div style={{display:"none"}} >
-            <input 
-            id='file'
-            type="file" 
-            accept=".png,jpeg,.jpg"
-            onChange={(e)=>setImages(e.target.files[0])}
-            
-             />
-          </div>
+        <input
+          type="file"
+          id="file"
+          accept=".png,.jpeg,.jpg,.mp4"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
 
-        {images && (
+        {image && (
           <div className="displayImg">
-            <CloseRoundedIcon onClick={()=>setImages(null)}/>
-            <img src={URL.createObjectURL(images)} alt="" />
+            <CloseRoundedIcon onClick={() => setImage(null)} className="clear-icon" />
+            <img src={URL.createObjectURL(image)} alt="" />
           </div>
         )}
 
-        </form>
-     </div>
-  )
-}
+        {video && (
+          <div className="displayImg">
+            <CloseRoundedIcon onClick={() => setVideo(null)} className="clear-icon" />
+            <video controls>
+              <source src={URL.createObjectURL(video)} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        )}
+      </form>
+    </div>
+  );
+};
 
 export default ProfileInputPost

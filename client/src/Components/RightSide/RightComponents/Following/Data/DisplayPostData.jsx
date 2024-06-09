@@ -16,7 +16,7 @@ import DPimg6 from "../../../../../assets/DP/img6.jpg"
 
 export const DisPlayPostData =[
     {
-      username:"Harry",
+      username:"Alen",
       profilepicture:DPimg1,
       img:img1,
       datetime:"April 01, 2023 12:05 AM",
@@ -25,7 +25,7 @@ export const DisPlayPostData =[
       comment:10
     },
     {
-      username:"chris dhaniel",
+      username:"Dastin",
       profilepicture:DPimg2,
       img:img2,
       datetime:"May 01, 2023 12:05 AM",
@@ -34,7 +34,7 @@ export const DisPlayPostData =[
       comment:50
     },
     {
-      username:"April",
+      username:"Sanje",
       profilepicture:DPimg3,
       img:img3,
       datetime:"June 01, 2023 12:05 AM",
@@ -43,7 +43,7 @@ export const DisPlayPostData =[
       comment:76
     },
     {
-      username:"Lara",
+      username:"Singh",
       profilepicture:DPimg4,
       img:img4,
       datetime:"July 01, 2023 12:05 AM",
@@ -53,7 +53,7 @@ export const DisPlayPostData =[
     },
     {
 
-      username:"Kenny",
+      username:"Jeremy",
       profilepicture:DPimg5,
       img:img5,
       datetime:"February 01, 2023 12:05 AM",
@@ -62,7 +62,7 @@ export const DisPlayPostData =[
       comment:10
     },
     {
-      username:"Reyana",
+      username:"Lemnuel",
       profilepicture:DPimg6,
       img:img6,
       datetime:"January 01, 2023 12:05 AM",

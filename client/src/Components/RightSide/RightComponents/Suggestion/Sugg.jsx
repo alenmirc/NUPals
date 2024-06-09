@@ -11,7 +11,7 @@ const Sugg = () => {
       <div className="sugg-people">
         <div className="s-left">
           <img src={Simg1} alt="" />
-          <h3>Cristiano Ronaldo</h3>
+          <h3>Dastin Contento</h3>
         </div>
 
         <div className="s-right">
@@ -23,7 +23,7 @@ const Sugg = () => {
       <div className="sugg-people">
         <div className="s-left">
           <img src={Simg2} alt="" />
-          <h3>Elon Musk</h3>
+          <h3>Joseph Sanje</h3>
         </div>
 
         <div className="s-right">

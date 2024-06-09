@@ -5,9 +5,6 @@
     const cookieParser = require('cookie-parser')
     const app = express();
 
-    const multer = require('multer'); // Import multer
-
-    
 
     mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('Database Connected'))

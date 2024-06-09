@@ -10,10 +10,12 @@ import PrivateRoute from '../context/PrivateRoute';
 import Home from './pages/Home/Home';
 import Message from './pages/Message/Message';
 import Profile from './pages/Profile/Profile';
+import Editprofile from './pages/Profile/Editprofile/Editprofile';
 import Notification from './pages/Notification/Notification';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Profile2 from './pages/Profile';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true
@@ -33,6 +35,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path='/profile2' element={<PrivateRoute><Profile2 /></PrivateRoute>} />
+        <Route path='/editprofile' element={<PrivateRoute><Editprofile /></PrivateRoute>} />
       </Routes>
       </UserContextProvider>
     </>

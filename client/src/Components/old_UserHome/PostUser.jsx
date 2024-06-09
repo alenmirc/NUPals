@@ -1,5 +1,5 @@
 import React from 'react'
-import "../Home/Post.css"
+import "../Home/Homepage.css"
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';

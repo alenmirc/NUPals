@@ -1,5 +1,5 @@
 import "../Post/InputPost.css";
-import Profile from "../../assets/profile.jpg";
+import Profile from "../../assets/profile.png";
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import React, { useState, useContext } from 'react';
@@ -8,10 +8,10 @@ import axios from 'axios';
 import {toast} from 'react-hot-toast'
 
 
-const InputPost = () => {
+
+const InputPost = ({firstName, profilePicture, defprofile}) => {
   const { user } = useContext(UserContext); // Get user info from context
   const userId = user?.id;
-
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
@@ -87,11 +87,11 @@ const InputPost = () => {
     <div className="i-form">
       <form onSubmit={handleSubmit}>
         <div className="i-input-box">
-          <img src={Profile} className='i-img' alt="Profile" />
+          <img src={profilePicture || defprofile} className='i-img' alt="Profile" />
           <input
             type="text"
             id="i-input"
-            placeholder={`What's in your mind, ${user?.firstName}?`} // Use user name dynamically
+            placeholder={`What's in your mind, ${firstName}?`} // Use user name dynamically
             required
             value={body}
             onChange={(e) => setBody(e.target.value)}

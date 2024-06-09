@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Left from '../../Components/LeftSide/Left'
 import ProfileMiddle from '../../Components/Profile/ProfileMiddle'
 import Right from '../../Components/RightSide/Right'
 import Nav from '../../Components/Navigation/Nav'
 import "./Profile.css"
-import ProfileImg from "../../assets/profile.jpg"
+import ProfileImg from "../../assets/profile.png"
+import axios from 'axios';
+import { UserContext } from '../../../context/userContext';
+import defprofile from "../../assets/profile.png";
 
 const Profile = () => {
 
@@ -28,25 +31,43 @@ const Profile = () => {
     }
   )
 
+    
+  const [userData, setUserData] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [email, setEmail] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [profilePicture, setProfilePicture] = useState(''); // Add profilePicture state
+  
+  const { user } = useContext(UserContext); // Get user info from context
+  const userId = user?.id;
+
+  useEffect(() => {
+    if (userId) {
+      axios.get(`/getUserprofile?userId=${userId}`)
+        .then(response => {
+          console.log(response.data); // Log the userData received from the API
+          setUserData(response.data);
+          setFirstName(response.data.firstName || ''); // Ensure empty string if data is not available
+          setLastName(response.data.lastName || '');
+          setEmail(response.data.email || ''); // Ensure empty string if data is not available
+          setProfilePicture(response.data.profilePicture);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [userId]);
+
+
+
   return (
     <div className='interface'>
-        <Nav
-        search={search}
-        setSearch={setSearch}
-        showMenu={showMenu}
-        setShowMenu={setShowMenu}
-        profileImg={profileImg}
-        />
-      <div className="home">
-        <Left 
-        following={following}
-        setFollowing={setFollowing}
-        profileImg={profileImg}
-        modelDetails={modelDetails}
-        
-        />
+         <Nav profilePicture={profilePicture} defprofile={defprofile}/>
 
-        <ProfileMiddle 
+      <div className="home">
+        <Left  firstName={firstName} lastName={lastName} profilePicture={profilePicture} email={email} defprofile={defprofile} />
+
+        <ProfileMiddle firstName={firstName} profilePicture={profilePicture} defprofile={defprofile}
         following={following}
         search={search}
         images={images}
@@ -62,10 +83,7 @@ const Profile = () => {
         />
         
         <Right 
-        showMenu={showMenu}
-        setShowMenu={setShowMenu}
-        following={following}
-        setFollowing={setFollowing}
+   
         />
       </div>
     </div>

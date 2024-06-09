@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
-import "../Home/Home.css";
-import Left from "../../Components/LeftSide/Left";
-import Middle from "../../Components/MiddleSide/Middle";
-import Right from '../../Components/RightSide/Right';
-import Nav from '../../Components/Navigation/Nav';
+import "./Editprofile.css";
+import Left from "../../../Components/LeftSide/Left";
+import Middle from "./Edit/Middle";
+import Right from '../../../Components/RightSide/Right';
+import Nav from '../../../Components/Navigation/Nav';
 import axios from 'axios';
-import { UserContext } from '../../../context/userContext';
-import defprofile from "../../assets/profile.png";
+import { UserContext } from '../../../../context/userContext';
+import defprofile from "../../../assets/profile.png";
+import { useState, useContext, useEffect } from 'react'
 
-function Home() {
+function Editprofile() {
   
   const [userData, setUserData] = useState(null);
   const [firstName, setFirstName] = useState('');
@@ -39,11 +39,12 @@ function Home() {
 
   return (
     <div className="interface">
-      <Nav profilePicture={profilePicture} defprofile={defprofile}/>
+        <Nav profilePicture={profilePicture} defprofile={defprofile}/>
 
       <div className="home">
-        <Left firstName={firstName} lastName={lastName} profilePicture={profilePicture} email={email} defprofile={defprofile} />
-        <Middle firstName={firstName} profilePicture={profilePicture} defprofile={defprofile}/>
+      <Left  firstName={firstName} lastName={lastName} profilePicture={profilePicture} email={email} defprofile={defprofile} />
+
+        <Middle/>
 
         <Right/>
       </div>
@@ -51,4 +52,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Editprofile;

@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 import "../LeftSide/Left.css";
 import { AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
-import { FiTrendingUp, FiSettings } from "react-icons/fi";
+import {  FiSettings } from "react-icons/fi";
 import { BsBookmark } from "react-icons/bs";
 import { RiFileListLine } from "react-icons/ri";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Link } from 'react-router-dom';
-import Profile from "../../assets/profile.jpg";
+import Profile from "../../assets/profile.png";
 import { UserContext } from '../../../context/userContext';
 
-const Left = () => {
+const Left = ({ firstName, lastName, profilePicture, email, defprofile }) => {
   const [btnActive, setBtnActive] = useState("#");
   const [logOutExit, setLogOutExit] = useState(false);
   const { user, logout } = useContext(UserContext);
@@ -46,10 +46,10 @@ const Left = () => {
       <div className="left-user">
         <Link to="/profile" style={{ textDecoration: "none", color: "black" }}>
           <div className="user-name-userid">
-            <img src={user?.picturePath || Profile} alt="" />
+            <img src={profilePicture || defprofile}/>
             <div className='L-user'>
-              <h1>{user?.firstName} {user?.lastName}</h1>
-              <span>{user?.email}</span>
+              <h1>{firstName} {lastName}</h1>
+              <span>{email}</span>
             </div>
           </div>
         </Link>

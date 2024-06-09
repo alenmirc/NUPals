@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./Profile/Profile.css"
 
 const Profile = () => {
   const [username, setUsername] = useState('alenmirc');

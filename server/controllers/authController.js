@@ -103,26 +103,57 @@ const getProfile = (req, res) => {
 }
 
 
-
-//update profilepic
-const updateProfilepic = async (req, res) => {
-    try {
-      const userId = req.user.id; // Get the user's ID from the request
-      const base64String = req.body.profilePicture;
+// Update profile function
+const updateProfile = async (req, res) => {
+    const { userId, firstName, lastName, department, skills, profilePicture } = req.body;
   
-      // Update the user's profile picture in the database
-      const user = await User.findByIdAndUpdate(userId, { profilePicture: base64String }, { new: true });
+    try {
+      const user = await User.findById(userId);
   
       if (!user) {
-        return res.status(404).send({ message: 'User not found' });
+        return res.status(404).json({ message: 'User not found' });
       }
   
-      res.send({ message: 'Profile picture updated successfully' });
+      // Update user details
+      user.firstName = firstName || user.firstName;
+      user.lastName = lastName || user.lastName;
+      user.department = department || user.department;
+      user.skills = skills ? JSON.parse(skills) : user.skills;
+  
+      // Update profile picture if provided
+      if (profilePicture) {
+        user.profilePicture = profilePicture || user.profilePicture;
+        
+      }
+  
+      await user.save();
+  
+      res.status(200).json({ message: 'Profile updated successfully', user });
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: 'Error updating profile picture' });
+      res.status(500).json({ message: 'Error updating profile', error });
     }
   };
+
+//get userprofile
+const getUserprofile = async (req, res) => {
+    try {
+      const { userId } = req.query; // Get userId from query parameters
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+      const user = await User.findById(userId).select('firstName lastName email department skills profilePicture'); // Find user by ID
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error retrieving user profile' });
+    }
+  };
+  
+
+    
 
 module.exports = {
     test,
@@ -130,5 +161,6 @@ module.exports = {
     loginUser,
     logoutUser,
     getProfile,
-    updateProfilepic
+    updateProfile,
+    getUserprofile
 };

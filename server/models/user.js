@@ -14,8 +14,8 @@ const userSchema = new Schema({
         required: false,
         default: null
     },
-    skills: [{ type: String }],
-    roles: [{ type: String, }],
+    skills: [String],
+    roles: [String],
     profilePicture:  {
         type: String, // Update media type to String
         required: false,
