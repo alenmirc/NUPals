@@ -1,4 +1,8 @@
 /* Add your fancy styling here */
+.dashboard-body {
+    background: var(--grey);
+
+}
 
 .container {
     font-family: Arial, sans-serif;

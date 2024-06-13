@@ -1,7 +1,16 @@
 import React from 'react';
 import './Message.css';
 import Nav from '../../Components/Navigation/Nav';
+import { useEffect } from 'react';
 function Message() {
+   
+        useEffect(() => {
+          document.body.classList.add('dashboard-body');
+          return () => {
+            document.body.classList.remove('dashboard-body');
+          };
+        }, []);
+
     return (
         <>
       <Nav     />

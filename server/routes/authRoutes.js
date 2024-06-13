@@ -3,7 +3,7 @@ const router = express.Router();
 const cors = require('cors');
 const { test, registerUser, loginUser, logoutUser, getProfile, updateProfile, getUserprofile} = require('../controllers/authController');
 const { createUserPosting, getPost, getPostbyid, deletePost } = require('../controllers/userPostingController');
-const { getUsers, getAllpost, loginAdmin, logoutAdmin, adminDeletepost } = require('../controllers/adminController');
+const { getUsers, getAllpost, loginAdmin, logoutAdmin, adminDeletepost, updateUser, createUser, deleteUser } = require('../controllers/adminController');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
@@ -47,5 +47,8 @@ router.get('/getallpost', getAllpost);
 router.post('/loginadmin', loginAdmin);
 router.post('/logout', logoutAdmin)
 router.delete('/admindeletepost/:postId', adminDeletepost);
+router.put('/updateuser/:id', updateUser);
+router.delete('/deleteuser/:id', deleteUser);
+router.post('/createuser', createUser);
 
 module.exports = router;

@@ -40,9 +40,9 @@ function Nav ({search,setSearch,setShowMenu,profilePicture, defprofile}) {
         <Link to="/notification" id='notifi' style={{marginTop:"8px"}}><IoNotificationsOutline className='nav-icons'/><span>5</span></Link>
            
         <Link to="/message"><TbMessage className='nav-icons'/></Link>
+        <Link to="/findpal">
         <LiaUserFriendsSolid 
-        className='nav-icons'
-        onClick={()=>setShowMenu(true)}/>
+        className='nav-icons'/></Link>
       </div>
 
 

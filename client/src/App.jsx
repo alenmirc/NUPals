@@ -9,7 +9,7 @@ import PrivateRoute from '../context/PrivateRoute';
 import PublicRoute from '../context/PublicRoute';
 import AdminPublicRoute from '../context/AdminPublicRoute';
 import AdminPrivateRoute from '../context/AdminPrivateRoute';
-
+  
 import Notfound from './pages/404Notfound/404';
 
 import Home from './pages/Home/Home';
@@ -19,11 +19,14 @@ import Editprofile from './pages/Profile/Editprofile/Editprofile';
 import Notification from './pages/Notification/Notification';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import FindPal from './pages/FindPal/FindPal';
 
 import Dashboard from './admin/pages/Dashboard/Dashboard';
 import Users from './admin/pages/Users/Users';
 import Post from './admin/pages/Post/Post';
 import AdminLogin from './admin/pages/Login/Login';
+
+import Test from './admin/components/Sidebar/Sidebar';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true
@@ -46,6 +49,7 @@ function App() {
         <Route path='/register' element={<PublicRoute><Register /></PublicRoute>} />
         <Route path='/login' element={<PublicRoute><Login /></PublicRoute>} />
         <Route path='/editprofile' element={<PrivateRoute><Editprofile /></PrivateRoute>} />
+        <Route path='/findpal' element={<FindPal />} />
 
 
         <Route path='/admin/' element={<AdminPrivateRoute><Dashboard /></AdminPrivateRoute>} />
@@ -53,6 +57,8 @@ function App() {
         <Route path='/admin/login' element={<AdminPublicRoute><AdminLogin /></AdminPublicRoute>} />
         <Route path='/admin/users' element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
         <Route path='/admin/post' element={<AdminPrivateRoute><Post /></AdminPrivateRoute>} />
+
+        <Route path='/test/test' element={<Test />} />
       </Routes>
       </UserContextProvider>
     </>
